@@ -1,0 +1,23 @@
+{
+  "name": "kikfinder/banhammer",
+  "authors": [
+    {
+      "name": "Evan Darwin",
+      "email": "evan@devil.io"
+    }
+  ],
+  "require": {
+    "illuminate/support": "5.*",
+    "illuminate/database": "5.*",
+    "guzzlehttp/guzzle": "~5.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "KikFinder\\": "src/",
+      "KikFinder\\BanHammer\\Tests\\": "tests/"
+    }
+  }
+}
