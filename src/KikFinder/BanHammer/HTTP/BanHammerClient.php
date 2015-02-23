@@ -12,8 +12,8 @@ class BanHammerClient
 
     public function __construct()
     {
-        $this->endpoint = \Config::get('banhammer.endpoint');
-        $this->secret   = \Config::get('banhammer.secret');
+        $this->endpoint = config('banhammer.endpoint');
+        $this->secret   = config('banhammer.secret');
 
         $this->client = new Client();
     }
