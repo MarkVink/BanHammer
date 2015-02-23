@@ -60,15 +60,8 @@ class Hammer
         }
     }
 
-    public function generateBUID()
-    {
-        $length = 24;
-        $c      = "abcdefghijklmnopqrstuvwxyzABCEDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
-        $str    = "";
-        for ($x = 0; $x < $length; $x++) {
-            $str .= $c[mt_rand(0, strlen($c) - 1)];
-        }
-
-        return $str;
-    }
+	public function generateBUID($length = 24)
+	{
+		return str_random($length);
+	}
 }
