@@ -50,15 +50,16 @@ class Hammer
         return [$ipBan, $userBan];
     }
 
-    public function isBanned($username, $ip)
-    {
-        $userBan = Ban::where('type', '=', 'username')->where('address', 'LIKE', $username)->first();
-        $ipBan   = Ban::where('type', '=', 'ip')->where('address', '=', $ip)->first();
-
-        if ($userBan || $ipBan) {
-            return true;
-        }
-    }
+	public function isBanned($username, $ip)
+	{
+		return Ban::where(function ($query) use ($username)
+		{
+			$query->where('type', '=', 'username')->where('address', 'LIKE', $username);
+		})->orWhere(function ($query) use ($ip)
+		{
+			$query->where('type', '=', 'ip')->where('address', '=', $ip);
+		})->exists();
+	}
 
 	public function generateBUID($length = 24)
 	{
