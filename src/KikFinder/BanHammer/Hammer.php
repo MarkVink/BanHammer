@@ -24,31 +24,36 @@ class Hammer
         $this->manager->sync();
     }
 
-    public function ban($username, $address)
-    {
-        $existingUser = Ban::where('type', '=', 'username')->where('address', 'LIKE', $username)->first();
-        $existingIP   = Ban::where('type', '=', 'ip')->where('address', '=', $address)->first();
+	public function ban($username, $ip)
+	{
+		return [
+			$this->banUsername($username),
+			$this->banIpAddress($ip)
+		];
+	}
 
-        if ($existingIP && $existingUser) return;
+	public function banUsername($username)
+	{
+		return $this->banType('username', $username);
+	}
 
-        if (!$existingIP) {
-            $ipBan = Ban::create([
-                'buid'    => $this->generateBUID(),
-                'type'    => 'ip',
-                'address' => $username
-            ]);
-        }
+	public function banIpAddress($ip)
+	{
+		return $this->banType('ip', $ip);
+	}
 
-        if (!$existingUser) {
-            $userBan = Ban::create([
-                'buid'    => $this->generateBUID(),
-                'type'    => 'username',
-                'address' => $address
-            ]);
-        }
+	private function banType($type, $address)
+	{
+		$entry = Ban::firstOrNew(compact('type', 'address'));
 
-        return [$ipBan, $userBan];
-    }
+		if (!$entry->buid)
+		{
+			$entry->buid = $this->generateBUID();
+			$entry->save();
+		}
+
+		return $entry;
+	}
 
 	public function isBanned($username, $ip)
 	{
