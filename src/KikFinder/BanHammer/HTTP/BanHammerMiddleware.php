@@ -2,7 +2,6 @@
 
 namespace KikFinder\BanHammer\HTTP;
 
-use Illuminate\Support\Facades\Input;
 use KikFinder\BanHammer\BannedUserException;
 use KikFinder\BanHammer\Hammer;
 
@@ -31,12 +30,12 @@ class BanHammerMiddleware
         }
 
         // Check that the field exists in the request
-        if (!Input::has($field)) {
+        if (!$request->has($field)) {
             throw new \InvalidArgumentException("Specified username field '${field}' was null");
         }
 
         // Retrieve the fields
-        $username = Input::get($field);
+        $username = $request->get($field);
         $ip       = $_SERVER['REMOTE_ADDR'];
 
         // Check if banned
