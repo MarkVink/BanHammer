@@ -8,20 +8,21 @@ use GuzzleHttp\Exception\BadResponseException;
 class BanHammerClient
 {
     protected $client;
-    protected $endpoint, $secret;
 
     public function __construct()
     {
-        $this->endpoint = config('banhammer.endpoint');
-        $this->secret   = config('banhammer.secret');
-
-        $this->client = new Client();
+        $this->client = new Client([
+            'base_url' => config('banhammer.endpoint'),
+            'defaults' => [
+                'query' => [
+                    'secret' => config('banhammer.secret')
+                ]
+            ]
+        ]);
     }
 
     private function request($method, $uri, $body = null)
     {
-        $uri = $this->endpoint . $uri . '?secret=' . $this->secret;
-
         $response = $this->client->{$method}($uri, [], $body);
 
         if ($response->getBody()) {
