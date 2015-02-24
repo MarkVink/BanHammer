@@ -38,7 +38,7 @@ class BanHammerMiddleware
         $ip       = $request->ip();
 
         // Check if banned
-        if ($this->hammer->isBanned($username, $ip)) {
+        if ($this->hammer->isBanned($ip, $username)) {
             throw new BannedUserException();
         }
 

@@ -55,12 +55,14 @@ class Hammer
         return $entry;
     }
 
-    public function isBanned($username, $ip)
+    public function isBanned($ip, $username = null)
     {
-        return Ban::where(function ($query) use ($username) {
-            $query->where('type', '=', 'username')->where('address', 'LIKE', $username);
-        })->orWhere(function ($query) use ($ip) {
+        return Ban::where(function ($query) use ($ip) {
             $query->where('type', '=', 'ip')->where('address', '=', $ip);
+        })->orWhere(function ($query) use ($username) {
+            if (!is_null($username)) {
+                $query->where('type', '=', 'username')->where('address', 'LIKE', $username);
+            }
         })->exists();
     }
 
