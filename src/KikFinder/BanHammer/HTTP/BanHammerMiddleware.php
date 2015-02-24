@@ -16,27 +16,25 @@ class BanHammerMiddleware
 
     public function handle($request, \Closure $next)
     {
+        $usernameField = null;
+
         // Get the parameters for the route
         $actions = $request->route()->getAction();
 
         // Check if there's a 'hammer' key
         if (array_key_exists('hammer', $actions)) {
             // Get the field name
-            $field = $actions['hammer'];
-        } else {
-            throw new \InvalidArgumentException(
-                "You must specify the 'hammer' key for BanHammer to find the input"
-            );
-        }
+            $usernameField = $actions['hammer'];
 
-        // Check that the field exists in the request
-        if (!$request->has($field)) {
-            throw new \InvalidArgumentException("Specified username field '${field}' was null");
+            // Check that the field exists in the request
+            if (!$request->has($usernameField)) {
+                throw new \InvalidArgumentException("Specified username field '${usernameField}' was null");
+            }
         }
 
         // Retrieve the fields
-        $username = $request->get($field);
-        $ip       = $_SERVER['REMOTE_ADDR'];
+        $username = (!is_null($usernameField)) ? $request->get($usernameField) : null;
+        $ip       = $request->ip();
 
         // Check if banned
         if ($this->hammer->isBanned($username, $ip)) {
