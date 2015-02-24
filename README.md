@@ -131,3 +131,23 @@ use KikFinder\BanHammer\Facades\BanHammer;
 
 BanHammer::isBanned('127.0.0.1', 'bad-username');
 ```
+
+## Artisan Commands
+
+##### Sync Command
+
+Open up `app/Console/Kernel.php` and the SyncCommand reference to the `$commands` array:
+
+```php
+"$commands" => [
+	// Existing Artisan commands
+    
+    'Hammer' => 'KikFinder\BanHammer\Console\Commands\SyncCommand',
+]
+```
+
+Now you are able to run an Artisan command to start the syncing process.
+```bash
+$ php artisan hammer:sync
+```
+
