@@ -73,7 +73,7 @@ $ php artisan migrate
 
 ##### Route Middleware
 
-Add the following to you `app/Http/routes.php` file in order to register your route. You should use the middleware as defined in app/Http/Kernel.php` and provide the field name for the username as argument `hammer`.
+Add the following to you `app/Http/routes.php` file in order to register your route. You should use the middleware as defined in app/Http/Kernel.php` and provide the field name for the username as argument `hammer`. This argument is optional and in case you leave it out, BanHammer will only check on the user's IP-address.
 
 ```php
 Route::post('shoutouts', [
@@ -104,7 +104,7 @@ The following methods are provided to ban a certain username or IP-address. Thes
 ```php
 use KikFinder\BanHammer\Facades\BanHammer;
 
-BanHammer::ban('bad-username', '127.0.0.1');
+BanHammer::ban('127.0.0.1', 'bad-username');
 ```
 
 ```php
@@ -123,5 +123,11 @@ Its also possible to check if an certain username or IP-address is banned. The f
 ```php
 use KikFinder\BanHammer\Facades\BanHammer;
 
-BanHammer::isBanned('bad-username', '127.0.0.1');
+BanHammer::isBanned('127.0.0.1');
+```
+
+```php
+use KikFinder\BanHammer\Facades\BanHammer;
+
+BanHammer::isBanned('127.0.0.1', 'bad-username');
 ```
