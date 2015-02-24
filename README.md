@@ -4,31 +4,48 @@ BanHammer is package for [Laravel 5](http://laravel.com).
 
 ## Installation
 Add the following line to the require block of your `composer.json` file:
-```
-"kikfinder/banhammer": "dev-master"
+```js
+"require": {
+	"kikfinder/banhammer": "dev-master"
+}
 ```
 
 For now its also required to add this repository to the repositories block of your `composer.json` file:
-```
-{
-  "type": "vcs",
-  "url": "https://github.com/EvanDarwin/BanHammer"
-}
+```js
+"repositories": [
+	{
+  		"type": "vcs",
+  		"url": "https://github.com/EvanDarwin/BanHammer"
+	}
+]
 ```
 
 You'll then need to run `composer install` or `composer update` to download it and have the autoloader updated.
 
-Once BanHammer is installed, you need to register the service provider. Open up `config/app.php` and add the following to the `providers` key.
+Once BanHammer is installed, you need to register the service provider. Open up `config/app.php` and add the following:
 
-* `'KikFinder\BanHammer\ServiceProvider'`
+```php
+"providers" => [
+	// Existing Laravel entries
+    
+    'KikFinder\BanHammer\ServiceProvider',
+]
+```
 
-You can register the BanHammer facade in the `aliases` key of your `config/app.php` file if you like.
-
-* `'BanHammer' => 'KikFinder\BanHammer\Facades\BanHammer'`
+You can register the BanHammer facade in the `aliases` key of your `config/app.php` like so:
+```php
+"aliases" => [
+	// Existing Laravel aliases
+    
+    'Hammer' => 'KikFinder\BanHammer\Facades\BanHammer',
+]
+```
 
 We also have to rigister the route middleware, open up `app/Http/Kernel.php` and add the following to the `routeMiddleware` array.
 
-* `'hammer' => 'KikFinder\BanHammer\HTTP\BanHammerMiddleware'`
+```php
+'hammer' => 'KikFinder\BanHammer\HTTP\BanHammerMiddleware',
+```
 
 
 ## Configuration
@@ -47,9 +64,9 @@ $ php artisan migrate
 
 #### Options
 
-`endpoint` - The application endpoint for BanHammer to connect to in order to download ban listings.
+`endpoint` - The application endpoint for BanHammer to connect to in order to download ban listings. The default value for this is `https://bh-api.kikfinder.com`
 
-`secret` - The shared secret used to authenticate with BanHammer
+`secret` - The shared secret used to authenticate with BanHammer, you must retrieve this from the server owner.
 
 
 ## Usage
