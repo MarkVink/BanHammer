@@ -25,11 +25,11 @@ class Hammer
         $this->manager->sync();
     }
 
-    public function ban($username, $ip)
+    public function ban($ip, $username)
     {
         return [
-            $this->banUsername($username),
-            $this->banIpAddress($ip)
+            $this->banIpAddress($ip),
+            $this->banUsername($username)
         ];
     }
 
