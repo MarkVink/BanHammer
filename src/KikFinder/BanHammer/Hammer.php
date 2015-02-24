@@ -8,6 +8,7 @@ use KikFinder\BanHammer\HTTP\BanHammerClient;
 
 class Hammer
 {
+
     protected $app;
     protected $manager;
     protected $client;
@@ -24,50 +25,47 @@ class Hammer
         $this->manager->sync();
     }
 
-	public function ban($username, $ip)
-	{
-		return [
-			$this->banUsername($username),
-			$this->banIpAddress($ip)
-		];
-	}
+    public function ban($username, $ip)
+    {
+        return [
+            $this->banUsername($username),
+            $this->banIpAddress($ip)
+        ];
+    }
 
-	public function banUsername($username)
-	{
-		return $this->banType('username', $username);
-	}
+    public function banUsername($username)
+    {
+        return $this->banType('username', $username);
+    }
 
-	public function banIpAddress($ip)
-	{
-		return $this->banType('ip', $ip);
-	}
+    public function banIpAddress($ip)
+    {
+        return $this->banType('ip', $ip);
+    }
 
-	private function banType($type, $address)
-	{
-		$entry = Ban::firstOrNew(compact('type', 'address'));
+    private function banType($type, $address)
+    {
+        $entry = Ban::firstOrNew(compact('type', 'address'));
 
-		if (!$entry->buid)
-		{
-			$entry->buid = $this->generateBUID();
-			$entry->save();
-		}
+        if (!$entry->buid) {
+            $entry->buid = $this->generateBUID();
+            $entry->save();
+        }
 
-		return $entry;
-	}
+        return $entry;
+    }
 
-	public function isBanned($username, $ip)
-	{
-		return Ban::where(function ($query) use ($username)
-		{
-			$query->where('type', '=', 'username')->where('address', 'LIKE', $username);
-		})->orWhere(function ($query) use ($ip)
-		{
-			$query->where('type', '=', 'ip')->where('address', '=', $ip);
-		})->exists();
-	}
+    public function isBanned($username, $ip)
+    {
+        return Ban::where(function ($query) use ($username) {
+            $query->where('type', '=', 'username')->where('address', 'LIKE', $username);
+        })->orWhere(function ($query) use ($ip) {
+            $query->where('type', '=', 'ip')->where('address', '=', $ip);
+        })->exists();
+    }
 
-	public function generateBUID($length = 24)
-	{
-		return str_random($length);
-	}
+    public function generateBUID($length = 24)
+    {
+        return str_random($length);
+    }
 }

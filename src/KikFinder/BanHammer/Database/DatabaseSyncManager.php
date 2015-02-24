@@ -7,6 +7,7 @@ use KikFinder\BanHammer\HTTP\BanHammerClient;
 
 class DatabaseSyncManager
 {
+
     private $client;
 
     public function __construct(BanHammerClient $client)
@@ -29,7 +30,7 @@ class DatabaseSyncManager
         foreach ($localBans as $ban) {
             if ($ban['type'] == "ip") {
                 $localIPBans[$ban['buid']] = $ban['address'];
-            } else if ($ban['type'] == "username") {
+            } elseif ($ban['type'] == "username") {
                 $localUsernameBans[$ban['buid']] = $ban['address'];
             }
         }

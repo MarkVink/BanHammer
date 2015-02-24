@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\BadResponseException;
 
 class BanHammerClient
 {
+
     protected $client;
 
     public function __construct()
@@ -55,7 +56,7 @@ class BanHammerClient
         $ips       = $response['data']['ip'];
         $usernames = $response['data']['usernames'];
 
-        return (object)[
+        return (object) [
             'ips'       => $ips,
             'usernames' => $usernames,
         ];

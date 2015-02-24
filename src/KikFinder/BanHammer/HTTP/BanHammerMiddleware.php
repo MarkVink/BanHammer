@@ -7,6 +7,7 @@ use KikFinder\BanHammer\Hammer;
 
 class BanHammerMiddleware
 {
+
     protected $hammer;
 
     public function __construct(Hammer $hammer)
