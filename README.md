@@ -151,3 +151,27 @@ Now you are able to run an Artisan command to start the syncing process.
 $ php artisan hammer:sync
 ```
 
+
+##### Ban Command
+
+Open up `app/Console/Kernel.php` and the BanCommand reference to the `$commands` array:
+
+```php
+"$commands" => [
+	// Existing Artisan commands
+    
+    'Hammer' => 'KikFinder\BanHammer\Console\Commands\BanCommand',
+]
+```
+
+This will provide a new Arisan command for banning users based on their IP-address or username. Both options for specifying an ip-address or username can be used multiple times.
+
+```bash
+$ php artisan hammer:ban --ip=127.0.0.1
+$ php artisan hammer:ban --ip=127.0.0.1 --ip=127.0.0.2
+```
+
+```bash
+$ php artisan hammer:ban --username=baduser1
+$ php artisan hammer:ban --username=baduser1 --username=baduser2
+```
